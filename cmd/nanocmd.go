@@ -1,7 +1,6 @@
 package cmd
 
 import (
-	"fmt"
 	//"os"
 	//"os/exec"
 	//"runtime"
@@ -55,11 +54,11 @@ var nanocmdCmd = &cobra.Command{
 			fmt.Print("-")
 		}
 		fmt.Print(filename)
-		
+
 		for i := 0; i < 80 - nbOfChar/2 - filenameLen; i++ {
 			fmt.Print("-")
 		}
-		
+
 		fmt.Println()
 		scanner := bufio.NewScanner(file)
 		lineNo := 0
@@ -68,10 +67,9 @@ var nanocmdCmd = &cobra.Command{
 			fmt.Printf("%4d. ", lineNo)
 			fmt.Println(scanner.Text())
 		}
-	
+
 		fmt.Println("--------------------------------------------------------------------------------")
 		*/
-		fmt.Println(cmd.LocalFlags())
 	},
 }
 
@@ -87,5 +85,5 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// nanocmdCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
-	nanocmdCmd.Flags().StringP("filename", "f", "", "Filename you want to edit")
+
 }
