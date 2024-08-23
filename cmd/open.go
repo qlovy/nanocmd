@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
@@ -10,9 +11,7 @@ import (
 
 var filename string
 
-const configFile string = ".nanocmd"
-
-// saveCmd represents the save command
+// openCmd represent the Open command
 var openCmd = &cobra.Command{
 	Use:   "open",
 	Short: "A brief description of your command",
@@ -29,23 +28,63 @@ var openCmd = &cobra.Command{
 			cmd.Stdout = os.Stdout
 			cmd.Run()
 		}
+		// Lis le fichier .nanocmd
 		fBytes, err := os.ReadFile(configFile)
-		fStr := string(fBytes)
+		fStr := string(fBytes) // Transforme en chaîne de carctère
+		// S'il y a une erreur (donc le fichier n'existe pas)
 		if err != nil {
-			_, err1 := os.Create(configFile)
-			if err1 != nil {
+			// Création du fichier
+			_, err = os.Create(configFile)
+			// S'il y a une erreur, on quitte
+			if err != nil {
+
+				fmt.Println("Error: Can't create the config file !")
 				return
+
 			}
+			// S'il n'y a pas de nom de fichier donné mais qu'il est actuellement ouvert (le .nanocmd contient quelque chose)
 		} else if filename == "" && fStr != "" {
 			filename = fStr
+			// Si un nom de fichier est donné et qu'il n'y a pas de fichier ouvert
 		} else if filename != "" && fStr == "" {
-			err2 := os.WriteFile(configFile, []byte(filename), 0666)
-			if err2 != nil {
+			// Store the name of the file
+			err = os.WriteFile(configFile, []byte(filename), 0666)
+			if err != nil {
+
+				fmt.Println("Error: Can't write in the config file !")
 				return
+
 			}
+			// Si le nom de fichier donné n'est pas le même que celui qui est ouvert
 		} else if filename != fStr {
 			fmt.Printf("Error: You should close %s before openning %s", filename, fStr)
+			return
 		}
+
+		file, err := os.Open(filename)
+
+		// Affichage du nom du fichier dans l'interface
+		filenameLen := len(filename)
+		nbOfChar := 80 - filenameLen
+		for i := 0; i < nbOfChar/2; i++ {
+			fmt.Print("-")
+		}
+		fmt.Print(filename)
+
+		for i := 0; i < 80-nbOfChar/2-filenameLen; i++ {
+			fmt.Print("-")
+		}
+
+		fmt.Println()
+		scanner := bufio.NewScanner(file)
+		lineNo := 0
+		for scanner.Scan() {
+			lineNo++
+			fmt.Printf("%4d ", lineNo)
+			fmt.Println(scanner.Text())
+		}
+
+		fmt.Println("--------------------------------------------------------------------------------")
 	},
 }
 

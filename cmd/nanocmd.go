@@ -9,6 +9,8 @@ import (
 	//"bufio"
 )
 
+const configFile string = ".nanocmd"
+
 // nanocmdCmd represents the nanocmd command
 var nanocmdCmd = &cobra.Command{
 	Use:   "nanocmd",
