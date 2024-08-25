@@ -37,10 +37,8 @@ var openCmd = &cobra.Command{
 			_, err = os.Create(configFile)
 			// S'il y a une erreur, on quitte
 			if err != nil {
-
 				fmt.Println("Error: Can't create the config file !")
 				return
-
 			}
 			// S'il n'y a pas de nom de fichier donné mais qu'il est actuellement ouvert (le .nanocmd contient quelque chose)
 		} else if filename == "" && fStr != "" {
@@ -59,8 +57,12 @@ var openCmd = &cobra.Command{
 		} else if filename != fStr {
 			fmt.Printf("Error: You should close %s before openning %s", filename, fStr)
 			return
+		}else if filename == "" && fStr == "" {
+			fmt.Println("Error: filename no specified !")
+			return
 		}
 
+		// Lecture du fichier
 		file, err := os.Open(filename)
 
 		// Affichage du nom du fichier dans l'interface

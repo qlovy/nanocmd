@@ -14,19 +14,8 @@ var closeCmd = &cobra.Command{
 	Short: "A brief description of your command",
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
-		fByte, err := os.ReadFile(configFile)
-		if err != nil {
-			return
-		}
-		fmt.Println(string(fByte))
-		/*
-			err = os.WriteFile(fStr, []byte(content), 0666)
-			if err != nil {
-				fmt.Println("Error: Can't close the file !")
-				return
-			}
-
-		*/
+		os.WriteFile(configFile, []byte(""), 0666)
+		fmt.Println("Your file has been closed")
 	},
 }
 
