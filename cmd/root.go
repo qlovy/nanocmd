@@ -13,11 +13,8 @@ var rootCmd = &cobra.Command{
 	Short: "Replace nano",
 	Long: `
 	The Nano ClI is base on the software nano that you find in terminal. 
-	With this projetct, you will have a new verison of nano who is up to date,
-	in the go programming language and in a more CLI type.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+	With this projetct, you will have a new verison of nano who is up to
+	date, in the go programming language and in a more CLI type.`,
 }
 
 // Execute adds all child commands to the root command and sets flags appropriately.

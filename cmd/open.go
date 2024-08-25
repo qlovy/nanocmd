@@ -55,7 +55,7 @@ var openCmd = &cobra.Command{
 			}
 			// Si le nom de fichier donné n'est pas le même que celui qui est ouvert
 		} else if filename != fStr {
-			fmt.Printf("Error: You should close %s before openning %s", filename, fStr)
+			fmt.Printf("Error: You should close %s before openning %s\n", fStr, filename)
 			return
 		}else if filename == "" && fStr == "" {
 			fmt.Println("Error: filename no specified !")
@@ -63,7 +63,7 @@ var openCmd = &cobra.Command{
 		}
 
 		// Lecture du fichier
-		file, err := os.Open(filename)
+		file, _ := os.Open(filename)
 
 		// Affichage du nom du fichier dans l'interface
 		filenameLen := len(filename)

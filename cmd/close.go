@@ -15,7 +15,7 @@ var closeCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		os.WriteFile(configFile, []byte(""), 0666)
-		fmt.Println("Your file has been closed")
+		fmt.Println("The current has been closed")
 	},
 }
 
