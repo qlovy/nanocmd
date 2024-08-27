@@ -11,11 +11,20 @@ import (
 // saveCmd represents the save command
 var closeCmd = &cobra.Command{
 	Use:   "close",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Short: "To close the file correctly.",
+	Long:  `Close the file, so you can open an other one.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		os.WriteFile(configFile, []byte(""), 0666)
-		fmt.Println("The current has been closed")
+		file, err := os.Open(filename)
+		if err != nil {
+			fmt.Println("Error: Can't open the file !")
+			return
+		}
+		err = file.Close()
+		if err != nil {
+			fmt.Println("Error: Can't close the file !")
+			return
+		}
+		fmt.Println("The current file has been closed")
 	},
 }
 

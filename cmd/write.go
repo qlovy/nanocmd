@@ -5,18 +5,17 @@ import (
 	"fmt"
 	"github.com/spf13/cobra"
 	"os"
-	"strings"
 	"strconv"
+	"strings"
 )
 
 var addText, insertMsg, delMsg string
 
-
 // saveCmd represents the save command
 var writeCmd = &cobra.Command{
 	Use:   "write",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Short: "To edit the content of a file.",
+	Long:  `Write is used to modify the content of a file, with some basic flag.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		fByte, err := os.ReadFile(configFile)
 		if err != nil {
@@ -35,21 +34,21 @@ var writeCmd = &cobra.Command{
 		}
 		// Si le paramètre "append" a été utilisé
 		if addText != "" {
-			addText = "\n" + addText	// Ajoute une nouvelle ligne
+			addText = "\n" + addText // Ajoute une nouvelle ligne
 			fileInfo, err := file.Stat()
 			if err != nil {
 				fmt.Println("Error: Can't acces stat of the file !")
 				return
 			}
-			len_file := fileInfo.Size()	// La longueur du fichier en bytes
+			len_file := fileInfo.Size() // La longueur du fichier en bytes
 			// Ecrit le message à la fin du fichier
 			file.WriteAt([]byte(addText), int64(len_file))
-		// Si le paramètre "insert" a été utilisé
-		}else if insertMsg != "" {
+			// Si le paramètre "insert" a été utilisé
+		} else if insertMsg != "" {
 			// Coupe le message en deux, la ligne et le texte
 			strLineNo, text, _ := strings.Cut(insertMsg, " ")
 			scanner := bufio.NewScanner(file)
-			lineNo, err := strconv.Atoi(strLineNo)	// Convertit de chaîne de carctère en nombre 
+			lineNo, err := strconv.Atoi(strLineNo) // Convertit de chaîne de carctère en nombre
 			// S'il y a une erreure
 			if err != nil {
 				fmt.Println("Error: Can't convert string to int !")
@@ -71,8 +70,8 @@ var writeCmd = &cobra.Command{
 				fmt.Printf("Error: Can't write in %s !\n", filename)
 				return
 			}
-		// Si le paramètre "delete" a été utilisé
-		}else if delMsg != "" {
+			// Si le paramètre "delete" a été utilisé
+		} else if delMsg != "" {
 			//i := strings.Index(delMsg, "-")
 			before, after, _ := strings.Cut(delMsg, "-")
 			linesNo := []int{}
@@ -89,7 +88,7 @@ var writeCmd = &cobra.Command{
 					return
 				}
 				linesNo = append(linesNo, n)
-			}else{
+			} else {
 				n, err := strconv.Atoi(before)
 				if err != nil {
 					fmt.Println("Error: Can't convert non-integer in integer")
@@ -107,7 +106,7 @@ var writeCmd = &cobra.Command{
 					if countLine < linesNo[0] || countLine > linesNo[1] {
 						content += scanner.Text() + "\n"
 					}
-				}else{
+				} else {
 					if countLine != linesNo[0] {
 						content += scanner.Text() + "\n"
 					}
@@ -133,7 +132,7 @@ func init() {
 
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
-	writeCmd.Flags().StringVarP(&addText,"append", "a", "", "append text at the bottom of the file")
-	writeCmd.Flags().StringVarP(&insertMsg,"insert", "i", "", "insert text at a certain line (\"line text\")")
-	writeCmd.Flags().StringVarP(&delMsg,"delete", "d", "", "delete text at a certain line or multiple (5 - 8)")
+	writeCmd.Flags().StringVarP(&addText, "append", "a", "", "append text at the bottom of the file")
+	writeCmd.Flags().StringVarP(&insertMsg, "insert", "i", "", "insert text at a certain line (\"line text\")")
+	writeCmd.Flags().StringVarP(&delMsg, "delete", "d", "", "delete text at a certain line or multiple (5 - 8)")
 }

@@ -14,8 +14,9 @@ var filename string
 // openCmd represent the Open command
 var openCmd = &cobra.Command{
 	Use:   "open",
-	Short: "A brief description of your command",
-	Long:  ``,
+	Short: "To show the content of file.",
+	Long: `
+	  Need a filename to work. But if it's already define you can simply run open.`,
 	Run: func(cmd *cobra.Command, args []string) {
 		// Efface la console, si on est sur mac (darwin)
 		if runtime.GOOS == "darwin" {
@@ -57,7 +58,7 @@ var openCmd = &cobra.Command{
 		} else if filename != fStr {
 			fmt.Printf("Error: You should close %s before openning %s\n", fStr, filename)
 			return
-		}else if filename == "" && fStr == "" {
+		} else if filename == "" && fStr == "" {
 			fmt.Println("Error: filename no specified !")
 			return
 		}
